@@ -11,7 +11,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/home/aum/Desktop/Projects/registry/k8s/volumes"
+    path: "/mnt/data"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -24,4 +24,3 @@ spec:
   resources:
     requests:
       storage: 10Gi
-

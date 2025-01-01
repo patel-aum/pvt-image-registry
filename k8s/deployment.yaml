@@ -17,6 +17,25 @@ spec:
       containers:
       - image: registry:2.8.3
         name: registry
+        env:
+        - name: REGISTRY_AUTH
+          value: "htpasswd"
+        - name: REGISTRY_AUTH_HTPASSWD_REALM
+          value: "Registry Realm"
+        - name: REGISTRY_AUTH_HTPASSWD_PATH
+          value: "/auth/htpasswd"
+        - name: REGISTRY_HTTP_TLS_CERTIFICATE
+          value: "/certs/tls.crt"
+        - name: REGISTRY_HTTP_TLS_KEY
+          value: "/certs/tls.key"
+        - name: REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY
+          value: "/var/lib/registry"
+        - name: REGISTRY_LOG_LEVEL
+          value: "debug"
+        - name: REGISTRY_STORAGE_DELETE_ENABLED
+          value: "true"
+        ports:
+        - containerPort: 5000
         volumeMounts:
         - name: reg-vol
           mountPath: "/var/lib/registry"
@@ -26,17 +45,6 @@ spec:
         - name: auth-vol
           mountPath: "/auth"
           readOnly: true
-        env:
-        - name: REGISTRY_AUTH
-          value: "htpasswd"
-        - name: REGISTRY_AUTH_HTPASSWD_REALM
-          value: "Registry Realm"   
-        - name: REGISTRY_HTTP_TLS_CERTIFICATE
-          value: "/certs/tls.crt"
-        - name: REGISTRY_AUTH_HTPASSWD_PATH
-          value: "/auth/htpasswd"
-        - name: REGISTRY_HTTP_TLS_KEY
-          value: "/certs/tls.key"
       volumes:
       - name: reg-vol
         persistentVolumeClaim:
@@ -47,4 +55,3 @@ spec:
       - name: auth-vol
         secret:
           secretName: auth
-
